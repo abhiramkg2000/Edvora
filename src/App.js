@@ -42,22 +42,26 @@ export default function App() {
     const selected = e.target.value;
     console.log(selected);
     //console.log("data= " + data);
-    const filtered = data.map((item, index) => {
-      if (selected === item.state) {
-        return item.city;
-      }
-      return 0;
-    }, selected);
-    console.log("filtered= " + filtered);
-    setSelected(filtered);
+    if (selected === "all") {
+      setValue(data);
+    } else {
+      const filtered = data.map((item, index) => {
+        if (selected === item.state) {
+          return item.city;
+        }
+        return 0;
+      }, selected);
+      console.log("filtered= " + filtered);
+      setSelected(filtered);
 
-    const temp = data.map((item, index) => {
-      if (selected === item.state) {
-        return item;
-      }
-      return 0;
-    });
-    setValue(temp);
+      const temp = data.map((item, index) => {
+        if (selected === item.state) {
+          return item;
+        }
+        return 0;
+      });
+      setValue(temp);
+    }
   };
 
   //console.log("value1 " + value);
@@ -127,7 +131,7 @@ export default function App() {
         <div className="filter-content">
           <p>Nearest rides</p>
           <p>Upcoming rides</p>
-          <p>Past rides</p>
+          <p to="/PastRides">Past rides</p>
         </div>
         <div className="filter">
           <div className="filter-icon" onClick={handleClick}>
@@ -136,6 +140,7 @@ export default function App() {
           <div className="filter-drop">
             {click === 2 ? (
               <select onChange={handleChange1} className="dropdown1">
+                <option>all</option>
                 {data.map((item, index) => {
                   return <option key={index}>{item.state}</option>;
                 })}
