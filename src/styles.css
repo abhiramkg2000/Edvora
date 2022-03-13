@@ -1,0 +1,74 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  background-color: #292929;
+  min-height: 100vh;
+}
+.menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  background-color: #101010;
+  color: #fff;
+  padding: 0 10px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+}
+.user p {
+  margin: 0 10px;
+  padding: 20px 0;
+}
+.user-image {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  background-image: url("https://picsum.photos/200");
+  background-position: center;
+}
+.filter-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.filter-content {
+  display: flex;
+  flex-direction: row;
+}
+.filter-content p {
+  margin: 0 10px;
+  color: #fff;
+}
+.filter {
+  background-color: #101010;
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 20px 10px;
+}
+.filter-icon {
+  display: flex;
+  color: #fff;
+}
+.filter-drop {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+}
+.dropdown1,
+.dropdown2 {
+  margin: 5px 5px;
+  height: 30px;
+  width: 100px;
+  background-color: #292929;
+  color: #fff;
+  border: none;
+}
