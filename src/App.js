@@ -1,16 +1,21 @@
 import "./styles.css";
+import UpcomingRides from "./components/UpcomingRides/UpcomingRides";
+import PastRides from "./components/PastRides/PastRides";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Card from "./components/card/Card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/fontawesome-free-solid";
+import { Switch, Link, BrowserRouter as Router, Route } from "react-router-dom";
 
 export default function App() {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState([]);
   const [value, setValue] = useState([]);
   const [userdata, setUserData] = useState([]);
-  const [click, setClick] = useState("1");
+  const [click, setClick] = useState(1);
+  const [clicked, setClicked] = useState(true);
+
   //const [distance, setDistance] = useState([]);
 
   useEffect(() => {
@@ -69,7 +74,6 @@ export default function App() {
   const handleChange2 = (e) => {
     console.log(e.target.value);
     const selected = e.target.value;
-
     const temp = data.map((item, index) => {
       if (selected === item.city) {
         return item;
@@ -108,13 +112,23 @@ export default function App() {
     }
     return 0;
   });
+
   const handleClick = () => {
-    //console.log(click);
+    console.log(click);
     if (click === 1) {
       setClick(2);
     } else {
       setClick(1);
     }
+  };
+
+  const handleClicked = (e) => {
+    if (e === "NearbyRides") {
+      setClicked(true);
+    } else {
+      setClicked(false);
+    }
+    console.log(clicked + " " + e);
   };
   return (
     <div className="App">
@@ -124,17 +138,60 @@ export default function App() {
         </div>
         <div className="user">
           <p>{userdata.name}</p>
-          <div className="user-image"></div>
+          <div className="user-image">
+            <img
+              src={userdata.url}
+              alt="not found"
+              height="100%"
+              width="100%"
+              className="image"
+            />
+          </div>
         </div>
       </div>
+
       <div className="filter-menu">
         <div className="filter-content">
-          <p>Nearest rides</p>
-          <p>Upcoming rides</p>
-          <p to="/PastRides">Past rides</p>
+          <Router>
+            <Link
+              to="/App"
+              className="link"
+              onClick={(e) => handleClicked("NearbyRides")}
+            >
+              Nearest rides
+            </Link>
+            <Link
+              to={{
+                pathname: "/UpcomingRides",
+                state: clicked === true ? !clicked : clicked
+              }}
+              className="link"
+              onClick={(e) => handleClicked("UpcomingRides")}
+            >
+              Upcoming rides
+            </Link>
+            <Link
+              to={{
+                pathname: "/PastRides",
+                state: clicked === true ? !clicked : clicked
+              }}
+              className="link"
+              onClick={(e) => handleClicked("PastRides")}
+            >
+              Past rides
+            </Link>
+            <Switch>
+              <Route path="/Card" exact component={Card} />
+              <Route path="/UpcomingRides" exact component={UpcomingRides} />
+              <Route path="/PastRides" exact component={PastRides} />
+            </Switch>
+          </Router>
         </div>
-        <div className="filter">
-          <div className="filter-icon" onClick={handleClick}>
+        <div
+          className={click !== 2 ? "filter active" : "filter"}
+          onClick={handleClick}
+        >
+          <div className="filter-icon">
             <FontAwesomeIcon icon={faFilter} color="white" size="lg" />
           </div>
           <div className="filter-drop">
@@ -162,15 +219,17 @@ export default function App() {
           </div>
         </div>
       </div>
-      {value.length !== 0
-        ? value.map((item, index) => {
-            if (item !== 0)
+      {clicked
+        ? value.length !== 0
+          ? value.map((item, index) => {
+              if (item !== 0)
+                return <Card item={item} key={index} index={index} />;
+              return <p key={index} />;
+            })
+          : data.map((item, index) => {
               return <Card item={item} key={index} index={index} />;
-            return <p key={index} />;
-          })
-        : data.map((item, index) => {
-            return <Card item={item} key={index} index={index} />;
-          })}
+            })
+        : null}
     </div>
   );
 }
