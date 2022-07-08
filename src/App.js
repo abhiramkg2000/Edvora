@@ -187,11 +187,8 @@ export default function App() {
             </Switch>
           </Router>
         </div>
-        <div
-          className={click !== 2 ? "filter active" : "filter"}
-          onClick={handleClick}
-        >
-          <div className="filter-icon">
+        <div className={click !== 2 ? "filter active" : "filter"}>
+          <div className="filter-icon" onClick={handleClick}>
             <FontAwesomeIcon icon={faFilter} color="white" size="lg" />
           </div>
           <div className="filter-drop">
